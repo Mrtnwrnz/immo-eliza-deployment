@@ -45,32 +45,7 @@ save_model(apply_regressor(df_house, 'house', 'xgboost'), 'house')
 save_model(apply_regressor(df_apartment, 'apartment', 'linear'), 'apartment')
 
 
-# load new data
-new_data = pd.read_csv('new_data.csv')
-
-# Select features
-columns = ['property_type', 'province', 'total_area_sqm', 'surface_land_sqm', 'nbr_frontages', 'fl_open_fire', 'terrace_sqm', 'fl_garden', 'garden_sqm', 'fl_swimming_pool', 'fl_floodzone', 'state_building', 'primary_energy_consumption_sqm', 'cadastral_income']
-df_new = df[columns].copy()
-
-# imputate
-df_filled = fill_missing_values(df_new)
-
-# Encode and normalize
-df_encoded = encode_categorical(df_filled)
-df_normalized = normalize(df_encoded)
-
-# create seperate datasets: APARTMENT / HOUSE
-df_new_house = df_normalized[df_normalized['property_type'] == 'HOUSE'].drop(columns=['property_type', 'garden_sqm'])
-df_new_apartment = df_normalized[df_normalized['property_type'] == 'APARTMENT'].drop(columns=['property_type', 'surface_land_sqm'])
 
 # load model
-loaded_model_house = joblib.load('models/model_file_house.pkl')
-loaded_model_apartment = joblib.load('models/model_file_apartment.pkl')
-# predict price and put into DataFrame
-predictions_house = loaded_model_house.predict(df_new_house)
-df_new_house['price'] = predictions_house
-predictions_apartment = loaded_model_apartment.predict(df_new_apartment)
-df_new_apartment['price'] = predictions_apartment
-df_combined = pd.concat([df_new_house, df_new_apartment], ignore_index=True)
-
-print(df_combined)
+#loaded_model_house = joblib.load('../data/model_file_house.pkl')
+#loaded_model_apartment = joblib.load('../data/model_file_apartment.pkl')

@@ -39,6 +39,6 @@ def save_model(enc, house_apt):
     Save trained model to .pkl files
     """
     if house_apt == 'house':
-        joblib.dump(enc, 'models/model_immo_eliza_house.pkl')
+        joblib.dump(enc, '../data/model_immo_eliza_house.pkl')
     elif house_apt == 'apartment':
-        joblib.dump(enc, 'models/model_immo_eliza_apartment.pkl')
+        joblib.dump(enc, '../data/model_immo_eliza_apartment.pkl')
