@@ -4,9 +4,9 @@ from xgboost import XGBRegressor
 from sklearn.ensemble import RandomForestRegressor
 import numpy as np
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
-import joblib
+import streamlit as st
 
-
+@st.cache_data
 def apply_regressor(df, house_apt, enc_name):
     """
     Split data, apply regression model to the DataFrame, print out model scores and return fitted encoder
@@ -23,22 +23,5 @@ def apply_regressor(df, house_apt, enc_name):
     # initialize and train model
     enc = encoders[enc_name]
     enc.fit(X_train, y_train)
-    # apply model
-    y_train_pred = enc.predict(X_train)
-    y_test_pred = enc.predict(X_test)
-    # evaluate model prediction
-    print(f'{enc_name.upper()} REGRESSION EVALUATION FOR {house_apt.upper()} DATASET\n')
-    print(f'Train MSE: {mean_squared_error(y_train, y_train_pred)}, Test MSE: {mean_squared_error(y_test, y_test_pred)}')
-    print(f'Train RMSE: {mean_squared_error(y_train, y_train_pred) ** 0.5}, Test RMSE: {mean_squared_error(y_test, y_test_pred) ** 0.5}')
-    print(f'Train MAE: {mean_absolute_error(y_train, y_train_pred)}, Test MAE: {mean_absolute_error(y_test, y_test_pred)}')
-    print(f'Train R²: {r2_score(y_train, y_train_pred)}, Test R²: {r2_score(y_test, y_test_pred)} \n')
+    
     return enc
-
-def save_model(enc, house_apt):
-    """
-    Save trained model to .pkl files
-    """
-    if house_apt == 'house':
-        joblib.dump(enc, '../data/model_immo_eliza_house.pkl')
-    elif house_apt == 'apartment':
-        joblib.dump(enc, '../data/model_immo_eliza_apartment.pkl')
