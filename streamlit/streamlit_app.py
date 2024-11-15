@@ -1,11 +1,12 @@
 from clean_preprocess import *
 from modelling import *
 import streamlit as st
+import pandas as pd
 
 st.title("Immo Eliza's price predictor")
 
 # import csv from scraping
-df = pd.read_csv("https://immo-eliza-predict.streamlit.app/streamlit/properties.csv")
+df = pd.read_csv("data/properties.csv")
 
 # check for duplicates
 df = duplicates(df)
