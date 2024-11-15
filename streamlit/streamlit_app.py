@@ -5,7 +5,7 @@ import streamlit as st
 st.title("Immo Eliza's price predictor")
 
 # import csv from scraping
-df = pd.read_csv("properties.csv")
+df = pd.read_csv("https://immo-eliza-predict.streamlit.app/streamlit/properties.csv")
 
 # check for duplicates
 df = duplicates(df)
