@@ -10,26 +10,26 @@ df = pd.read_csv("data/properties.csv")
 
 # check for duplicates
 df = duplicates(df)
-
+st.write(df.shape)
 # Define limitations of 'standard' house
 df = df[df['price'] < 1000000]
 df = df[df['nbr_bedrooms']< 6]
 df = df[df['subproperty_type'] != 'CASTLE']
-
+st.write(df.shape)
 # Drop features without use
 df = df.drop(['id', 'region', 'locality', 'zip_code', 'latitude', 'longitude', 'subproperty_type'], axis='columns')
 # Drop features to prevent overfitting / correlatetion
 df = df.drop(['terrace_sqm', 'nbr_bedrooms', 'equipped_kitchen', 'primary_energy_consumption_sqm', 
               'fl_double_glazing', 'construction_year', 'heating_type', 'fl_furnished'], axis='columns')
-
+st.write(df.shape)
 # clean data
 df_no_missing = remove_missing(df)
 df_no_empty = remove_empty(df_no_missing)
-
+st.write(df.shape)
 # Encode and normalize
 df_encoded = encode_categorical(df_no_empty)
 df_clean = normalize(df_encoded)
-
+st.write(df.shape)
 # create seperate datasets: APARTMENT / HOUSE
 df_house = df_clean[df_clean['property_type'] == 'HOUSE'].drop(columns=['property_type', 'garden_sqm'])
 df_apartment = df_clean[df_clean['property_type'] == 'APARTMENT'].drop(columns=['property_type', 'surface_land_sqm'])
@@ -75,7 +75,6 @@ input_data = pd.DataFrame([{
 'fl_floodzone': fl_floodzone, 'state_building': state_building, 'cadastral_income': cadastral_income, 
 'fl_garden': fl_garden, 'epc': epc, 'price': 0
 }])
-#, 'surface_land_sqm': surface_land
 
 if property_type == 'House':
     input_data['surface_land_sqm'] = surface_land
@@ -94,4 +93,4 @@ elif property_type == 'Apartment':
     result = model_apt.predict(input_clean)
 
 
-st.write(f'The predicted value for your property is {int(result)} EUR')
+st.write(f'The predicted value for your property is {result} EUR')
